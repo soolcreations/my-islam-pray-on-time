@@ -10,4 +10,4 @@ A prayer times app with scoring, social sharing, and analytics.
 ## Tech Stack  
 - **Frontend**: Flutter (mobile), React.js (web)  
 - **Backend**: Node.js/Firebase  
-- **APIs**: Aladhan Prayer Times, Google Maps  
+- **APIs**: Aladhan Prayer Times, Google Maps  .
