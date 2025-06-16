@@ -1,0 +1,334 @@
+/**
+ * PrayerCountdown.css - Enhanced with notify friends section
+ */
+
+.prayer-countdown-container {
+  background-color: var(--card-background);
+  border-radius: var(--card-radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  transition: box-shadow 0.3s;
+}
+
+.prayer-countdown-container:hover {
+  box-shadow: var(--shadow-hover);
+}
+
+.prayer-countdown-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-md);
+}
+
+.prayer-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.current-prayer-name {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--primary-color);
+}
+
+.prayer-time {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.countdown-display {
+  text-align: right;
+}
+
+.countdown-label {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.countdown-timer {
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-family: 'Courier New', monospace;
+  color: var(--text-primary);
+}
+
+.countdown-progress-container {
+  width: 100%;
+  height: 8px;
+  background-color: var(--background-color);
+}
+
+.countdown-progress-bar {
+  height: 100%;
+  transition: width 1s linear, background-color 1s;
+}
+
+.prayer-countdown-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-md);
+}
+
+.current-score {
+  font-weight: 500;
+}
+
+.score {
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+.score-warning {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-top: var(--spacing-xs);
+}
+
+.register-button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.register-button:hover {
+  background-color: #43A047;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.register-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.prayer-registered {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.registered-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: var(--spacing-sm);
+}
+
+.registered-text {
+  font-weight: 500;
+}
+
+/* Notify Friends Section */
+.notify-friends-section {
+  padding: var(--spacing-md);
+  border-top: 1px solid var(--background-color);
+  animation: fadeIn 0.3s ease-in;
+}
+
+.notify-friends-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--spacing-sm);
+}
+
+.notify-friends-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: var(--secondary-color);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: var(--spacing-sm);
+  font-size: 1rem;
+}
+
+.notify-friends-title {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.notify-friends-message {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-bottom: var(--spacing-md);
+  padding-left: calc(32px + var(--spacing-sm));
+}
+
+.notify-friends-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  background-color: var(--secondary-color);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+}
+
+.notify-friends-button:hover {
+  background-color: #7CB342;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.notify-friends-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.notify-friends-button svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Notification Sent Confirmation */
+.notification-sent {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-md);
+  border-top: 1px solid var(--background-color);
+  animation: fadeIn 0.3s ease-in;
+  background-color: rgba(76, 175, 80, 0.1);
+}
+
+.notification-sent-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: var(--spacing-sm);
+}
+
+.notification-sent-message {
+  font-weight: 500;
+  color: var(--primary-color);
+}
+
+/* Toast Container */
+.toast-container {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  width: 90%;
+  max-width: 400px;
+}
+
+.toast {
+  padding: var(--spacing-md);
+  border-radius: var(--card-radius);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  animation: toastIn 0.3s ease-out, toastOut 0.3s ease-in 2.7s;
+  display: flex;
+  align-items: center;
+}
+
+.toast.success {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.toast.error {
+  background-color: var(--error-color);
+  color: white;
+}
+
+@keyframes toastIn {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes toastOut {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .prayer-countdown-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .countdown-display {
+    text-align: left;
+    margin-top: var(--spacing-sm);
+    width: 100%;
+  }
+  
+  .prayer-countdown-footer {
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+  
+  .current-score {
+    width: 100%;
+    text-align: center;
+  }
+  
+  .register-button {
+    width: 100%;
+  }
+}

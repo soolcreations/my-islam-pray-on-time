@@ -1,123 +1,212 @@
-// Settings Screen for mobile app
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Switch } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
-import { CalculationMethod, PrayerSettings, DEFAULT_PRAYER_SETTINGS } from '@shared/types';
+import React from 'react';
+import { StyleSheet, View, Text, ScrollView, TouchableOpacity } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../store';
+import { Card, Title, Paragraph, Switch, Divider, List, Avatar } from 'react-native-paper';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const SettingsScreen = () => {
-  const [settings, setSettings] = useState<PrayerSettings>({...DEFAULT_PRAYER_SETTINGS});
-  const [notificationsEnabled, setNotificationsEnabled] = useState(true);
-  const [darkModeEnabled, setDarkModeEnabled] = useState(false);
+  const dispatch = useDispatch();
+  const { user } = useSelector((state: RootState) => state.auth);
   
-  // Handle calculation method change
-  const handleMethodChange = (method: CalculationMethod) => {
-    setSettings({
-      ...settings,
-      calculationMethod: method
-    });
-  };
-  
-  // Handle Asr method change
-  const handleAsrMethodChange = (method: 'Standard' | 'Hanafi') => {
-    setSettings({
-      ...settings,
-      asrMethod: method
-    });
-  };
+  // State for settings
+  const [darkMode, setDarkMode] = React.useState(false);
+  const [prayerNotifications, setPrayerNotifications] = React.useState(true);
+  const [socialNotifications, setSocialNotifications] = React.useState(true);
+  const [quranNotifications, setQuranNotifications] = React.useState(true);
+  const [shareActivity, setShareActivity] = React.useState('friends');
   
   return (
     <ScrollView style={styles.container}>
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Prayer Calculation</Text>
-        
-        <View style={styles.settingItem}>
-          <Text style={styles.settingLabel}>Calculation Method</Text>
-          <View style={styles.pickerContainer}>
-            <Picker
-              selectedValue={settings.calculationMethod}
-              style={styles.picker}
-              onValueChange={(itemValue) => handleMethodChange(itemValue as CalculationMethod)}
-            >
-              {Object.values(CalculationMethod).map((method) => (
-                <Picker.Item key={method} label={method} value={method} />
-              ))}
-            </Picker>
+      {/* Profile Section */}
+      <Card style={styles.card}>
+        <Card.Content>
+          <View style={styles.profileHeader}>
+            <Avatar.Image 
+              size={80} 
+              source={{ uri: user?.avatar || 'https://ui-avatars.com/api/?name=' + user?.name }} 
+            />
+            <View style={styles.profileInfo}>
+              <Title style={styles.profileName}>{user?.name}</Title>
+              <Paragraph style={styles.profileEmail}>{user?.email}</Paragraph>
+              <TouchableOpacity style={styles.editProfileButton}>
+                <Text style={styles.editProfileText}>Edit Profile</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-        
-        <View style={styles.settingItem}>
-          <Text style={styles.settingLabel}>Asr Calculation</Text>
-          <View style={styles.pickerContainer}>
-            <Picker
-              selectedValue={settings.asrMethod}
-              style={styles.picker}
-              onValueChange={(itemValue) => handleAsrMethodChange(itemValue as 'Standard' | 'Hanafi')}
-            >
-              <Picker.Item label="Standard (Shafi, Maliki, Hanbali)" value="Standard" />
-              <Picker.Item label="Hanafi" value="Hanafi" />
-            </Picker>
+        </Card.Content>
+      </Card>
+      
+      {/* App Settings */}
+      <Card style={styles.card}>
+        <Card.Content>
+          <Title style={styles.sectionTitle}>App Settings</Title>
+          <Divider style={styles.divider} />
+          
+          <View style={styles.settingItem}>
+            <View style={styles.settingInfo}>
+              <Text style={styles.settingTitle}>Dark Mode</Text>
+              <Text style={styles.settingDescription}>Enable dark theme</Text>
+            </View>
+            <Switch
+              value={darkMode}
+              onValueChange={setDarkMode}
+              color="#4CAF50"
+            />
           </View>
-        </View>
-      </View>
+          
+          <Divider style={styles.itemDivider} />
+          
+          <TouchableOpacity style={styles.settingItem}>
+            <View style={styles.settingInfo}>
+              <Text style={styles.settingTitle}>Language</Text>
+              <Text style={styles.settingDescription}>English</Text>
+            </View>
+            <Icon name="chevron-right" size={24} color="#757575" />
+          </TouchableOpacity>
+          
+          <Divider style={styles.itemDivider} />
+          
+          <TouchableOpacity style={styles.settingItem}>
+            <View style={styles.settingInfo}>
+              <Text style={styles.settingTitle}>Prayer Calculation Method</Text>
+              <Text style={styles.settingDescription}>North America (ISNA)</Text>
+            </View>
+            <Icon name="chevron-right" size={24} color="#757575" />
+          </TouchableOpacity>
+        </Card.Content>
+      </Card>
       
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Notifications</Text>
-        
-        <View style={styles.settingItem}>
-          <Text style={styles.settingLabel}>Prayer Time Reminders</Text>
-          <Switch
-            value={notificationsEnabled}
-            onValueChange={setNotificationsEnabled}
-            trackColor={{ false: '#767577', true: '#81b0ff' }}
-            thumbColor={notificationsEnabled ? '#4CAF50' : '#f4f3f4'}
-          />
-        </View>
-        
-        <View style={[styles.settingItem, !notificationsEnabled && styles.disabledSetting]}>
-          <Text style={[styles.settingLabel, !notificationsEnabled && styles.disabledText]}>
-            Reminder Time
-          </Text>
-          <View style={styles.pickerContainer}>
-            <Picker
-              enabled={notificationsEnabled}
-              selectedValue="10"
-              style={styles.picker}
-              onValueChange={() => {}}
-            >
-              <Picker.Item label="5 minutes before" value="5" />
-              <Picker.Item label="10 minutes before" value="10" />
-              <Picker.Item label="15 minutes before" value="15" />
-              <Picker.Item label="30 minutes before" value="30" />
-            </Picker>
+      {/* Notification Settings */}
+      <Card style={styles.card}>
+        <Card.Content>
+          <Title style={styles.sectionTitle}>Notification Settings</Title>
+          <Divider style={styles.divider} />
+          
+          <View style={styles.settingItem}>
+            <View style={styles.settingInfo}>
+              <Text style={styles.settingTitle}>Prayer Times</Text>
+              <Text style={styles.settingDescription}>Receive prayer time reminders</Text>
+            </View>
+            <Switch
+              value={prayerNotifications}
+              onValueChange={setPrayerNotifications}
+              color="#4CAF50"
+            />
           </View>
-        </View>
-      </View>
+          
+          <Divider style={styles.itemDivider} />
+          
+          <View style={styles.settingItem}>
+            <View style={styles.settingInfo}>
+              <Text style={styles.settingTitle}>Social Activity</Text>
+              <Text style={styles.settingDescription}>Friend reminders and activity</Text>
+            </View>
+            <Switch
+              value={socialNotifications}
+              onValueChange={setSocialNotifications}
+              color="#4CAF50"
+            />
+          </View>
+          
+          <Divider style={styles.itemDivider} />
+          
+          <View style={styles.settingItem}>
+            <View style={styles.settingInfo}>
+              <Text style={styles.settingTitle}>Quran Goals</Text>
+              <Text style={styles.settingDescription}>Reading reminders and achievements</Text>
+            </View>
+            <Switch
+              value={quranNotifications}
+              onValueChange={setQuranNotifications}
+              color="#4CAF50"
+            />
+          </View>
+        </Card.Content>
+      </Card>
       
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Appearance</Text>
-        
-        <View style={styles.settingItem}>
-          <Text style={styles.settingLabel}>Dark Mode</Text>
-          <Switch
-            value={darkModeEnabled}
-            onValueChange={setDarkModeEnabled}
-            trackColor={{ false: '#767577', true: '#81b0ff' }}
-            thumbColor={darkModeEnabled ? '#4CAF50' : '#f4f3f4'}
-          />
-        </View>
-      </View>
+      {/* Privacy Settings */}
+      <Card style={styles.card}>
+        <Card.Content>
+          <Title style={styles.sectionTitle}>Privacy Settings</Title>
+          <Divider style={styles.divider} />
+          
+          <TouchableOpacity style={styles.settingItem}>
+            <View style={styles.settingInfo}>
+              <Text style={styles.settingTitle}>Who can see my activity</Text>
+              <Text style={styles.settingDescription}>{shareActivity === 'everyone' ? 'Everyone' : shareActivity === 'friends' ? 'Friends Only' : 'No One'}</Text>
+            </View>
+            <Icon name="chevron-right" size={24} color="#757575" />
+          </TouchableOpacity>
+          
+          <Divider style={styles.itemDivider} />
+          
+          <TouchableOpacity style={styles.settingItem}>
+            <View style={styles.settingInfo}>
+              <Text style={styles.settingTitle}>Who can send me reminders</Text>
+              <Text style={styles.settingDescription}>Friends Only</Text>
+            </View>
+            <Icon name="chevron-right" size={24} color="#757575" />
+          </TouchableOpacity>
+          
+          <Divider style={styles.itemDivider} />
+          
+          <TouchableOpacity style={styles.settingItem}>
+            <View style={styles.settingInfo}>
+              <Text style={styles.settingTitle}>Blocked Users</Text>
+              <Text style={styles.settingDescription}>Manage blocked users</Text>
+            </View>
+            <Icon name="chevron-right" size={24} color="#757575" />
+          </TouchableOpacity>
+        </Card.Content>
+      </Card>
       
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>About</Text>
-        
-        <View style={styles.aboutItem}>
-          <Text style={styles.aboutText}>Version: 1.0.0</Text>
-          <Text style={styles.aboutText}>Prayer Times App Prototype</Text>
-        </View>
-      </View>
+      {/* About & Support */}
+      <Card style={styles.card}>
+        <Card.Content>
+          <Title style={styles.sectionTitle}>About & Support</Title>
+          <Divider style={styles.divider} />
+          
+          <TouchableOpacity style={styles.settingItem}>
+            <View style={styles.settingInfo}>
+              <Text style={styles.settingTitle}>Help & Support</Text>
+              <Text style={styles.settingDescription}>Get help with the app</Text>
+            </View>
+            <Icon name="chevron-right" size={24} color="#757575" />
+          </TouchableOpacity>
+          
+          <Divider style={styles.itemDivider} />
+          
+          <TouchableOpacity style={styles.settingItem}>
+            <View style={styles.settingInfo}>
+              <Text style={styles.settingTitle}>Privacy Policy</Text>
+            </View>
+            <Icon name="chevron-right" size={24} color="#757575" />
+          </TouchableOpacity>
+          
+          <Divider style={styles.itemDivider} />
+          
+          <TouchableOpacity style={styles.settingItem}>
+            <View style={styles.settingInfo}>
+              <Text style={styles.settingTitle}>Terms of Service</Text>
+            </View>
+            <Icon name="chevron-right" size={24} color="#757575" />
+          </TouchableOpacity>
+          
+          <Divider style={styles.itemDivider} />
+          
+          <TouchableOpacity style={styles.settingItem}>
+            <View style={styles.settingInfo}>
+              <Text style={styles.settingTitle}>App Version</Text>
+              <Text style={styles.settingDescription}>1.0.0</Text>
+            </View>
+          </TouchableOpacity>
+        </Card.Content>
+      </Card>
       
-      <TouchableOpacity style={styles.saveButton}>
-        <Text style={styles.saveButtonText}>Save Settings</Text>
+      {/* Logout Button */}
+      <TouchableOpacity style={styles.logoutButton}>
+        <Text style={styles.logoutText}>Logout</Text>
       </TouchableOpacity>
     </ScrollView>
   );
@@ -127,71 +216,77 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f5f5f5',
+    padding: 16,
   },
-  section: {
-    backgroundColor: 'white',
-    margin: 10,
-    borderRadius: 10,
-    padding: 15,
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.2,
-    shadowRadius: 1.5,
+  card: {
+    marginBottom: 16,
+    borderRadius: 8,
+  },
+  profileHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  profileInfo: {
+    marginLeft: 16,
+    flex: 1,
+  },
+  profileName: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#424242',
+  },
+  profileEmail: {
+    fontSize: 14,
+    color: '#757575',
+  },
+  editProfileButton: {
+    marginTop: 8,
+  },
+  editProfileText: {
+    color: '#4CAF50',
+    fontWeight: '500',
   },
   sectionTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 15,
+    color: '#424242',
+  },
+  divider: {
+    marginVertical: 12,
   },
   settingItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
   },
-  settingLabel: {
-    fontSize: 16,
+  settingInfo: {
     flex: 1,
   },
-  pickerContainer: {
-    flex: 1,
-    borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 5,
-    overflow: 'hidden',
-  },
-  picker: {
-    height: 40,
-    width: '100%',
-  },
-  disabledSetting: {
-    opacity: 0.5,
-  },
-  disabledText: {
-    color: '#999',
-  },
-  aboutItem: {
-    paddingVertical: 12,
-  },
-  aboutText: {
+  settingTitle: {
     fontSize: 16,
-    color: '#555',
-    marginBottom: 5,
+    color: '#424242',
+    fontWeight: '500',
   },
-  saveButton: {
-    backgroundColor: '#4CAF50',
-    margin: 20,
-    padding: 15,
-    borderRadius: 5,
+  settingDescription: {
+    fontSize: 14,
+    color: '#757575',
+    marginTop: 2,
+  },
+  itemDivider: {
+    marginVertical: 4,
+  },
+  logoutButton: {
+    backgroundColor: '#f44336',
+    borderRadius: 8,
+    padding: 16,
     alignItems: 'center',
+    marginBottom: 32,
   },
-  saveButtonText: {
-    color: 'white',
-    fontSize: 16,
+  logoutText: {
+    color: '#fff',
     fontWeight: 'bold',
+    fontSize: 16,
   },
 });
 
