@@ -1,0 +1,154 @@
+/* Prayer Registration styles */
+.prayer-registration-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.registration-card {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.registration-card h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #333;
+}
+
+.time-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.time-label {
+  font-weight: bold;
+  color: #555;
+}
+
+.time-value {
+  font-weight: bold;
+}
+
+.mosque-option {
+  margin: 20px 0;
+}
+
+.mosque-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 16px;
+  user-select: none;
+}
+
+.mosque-label input {
+  margin-right: 10px;
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+}
+
+.score-info {
+  font-size: 14px;
+  color: #666;
+  font-style: italic;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+}
+
+.cancel-button, .register-button, .close-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.cancel-button {
+  background-color: #f1f1f1;
+  color: #333;
+}
+
+.cancel-button:hover {
+  background-color: #e0e0e0;
+}
+
+.register-button {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.register-button:hover {
+  background-color: #45a049;
+}
+
+.close-button {
+  background-color: #4CAF50;
+  color: white;
+  width: 100%;
+  margin-top: 15px;
+}
+
+.close-button:hover {
+  background-color: #45a049;
+}
+
+.registration-success {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.registration-success h2 {
+  color: #4CAF50;
+  margin-top: 0;
+}
+
+.score-display {
+  margin: 20px 0;
+}
+
+.score-circle {
+  width: 80px;
+  height: 80px;
+  background-color: #4CAF50;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0 auto 10px;
+}
+
+.score-label {
+  font-weight: bold;
+  color: #555;
+}

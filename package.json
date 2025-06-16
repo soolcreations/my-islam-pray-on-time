@@ -1,1 +1,19 @@
-Inherited file content will not be shown
+{
+  "name": "prayer_app",
+  "version": "1.0.0",
+  "description": "Muslim Prayer Times App with scoring and social features",
+  "main": "index.js",
+  "scripts": {
+    "start:mobile": "cd mobile && expo start",
+    "start:web": "cd web && npm start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "prayer",
+    "muslim",
+    "react-native",
+    "react"
+  ],
+  "author": "",
+  "license": "ISC"
+}

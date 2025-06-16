@@ -1,94 +1,64 @@
+// Mobile navigation setup
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-import { Provider as PaperProvider } from 'react-native-paper';
-import { Provider as StoreProvider } from 'react-redux';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { StatusBar } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { Ionicons } from '@expo/vector-icons';
 
 // Import screens (to be created)
-import CommunityFeedScreen from '../screens/CommunityFeedScreen';
-import StatisticsScreen from '../screens/StatisticsScreen';
-import PrayerScreen from '../screens/PrayerScreen';
-import QuranScreen from '../screens/QuranScreen';
-import NotificationsScreen from '../screens/NotificationsScreen';
+import DashboardScreen from '../screens/DashboardScreen';
+import PrayerRegistrationScreen from '../screens/PrayerRegistrationScreen';
+import MissedPrayersScreen from '../screens/MissedPrayersScreen';
 import SettingsScreen from '../screens/SettingsScreen';
-
-// Import store (to be created)
-import store from '../store';
-
-// Import theme (to be created)
-import { theme } from '../utils/theme';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
-// Main tab navigator
-const MainTabNavigator = () => {
+// Stack navigator for Dashboard and related screens
+const DashboardStack = () => {
   return (
-    <Tab.Navigator
-      screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused, color, size }) => {
-          let iconName;
-
-          if (route.name === 'Home') {
-            iconName = focused ? 'home' : 'home-outline';
-          } else if (route.name === 'Statistics') {
-            iconName = focused ? 'chart-bar' : 'chart-bar-outline';
-          } else if (route.name === 'Prayer') {
-            iconName = focused ? 'mosque' : 'mosque-outline';
-          } else if (route.name === 'Quran') {
-            iconName = focused ? 'book-open-variant' : 'book-open-outline';
-          } else if (route.name === 'Notifications') {
-            iconName = focused ? 'bell' : 'bell-outline';
-          }
-
-          return <Icon name={iconName} size={size} color={color} />;
-        },
-        tabBarActiveTintColor: theme.colors.primary,
-        tabBarInactiveTintColor: 'gray',
-        headerShown: false,
-      })}
-    >
-      <Tab.Screen name="Home" component={CommunityFeedScreen} />
-      <Tab.Screen name="Statistics" component={StatisticsScreen} />
-      <Tab.Screen name="Prayer" component={PrayerScreen} />
-      <Tab.Screen name="Quran" component={QuranScreen} />
-      <Tab.Screen name="Notifications" component={NotificationsScreen} />
-    </Tab.Navigator>
+    <Stack.Navigator>
+      <Stack.Screen 
+        name="DashboardMain" 
+        component={DashboardScreen} 
+        options={{ title: 'Prayer Dashboard' }} 
+      />
+      <Stack.Screen 
+        name="PrayerRegistration" 
+        component={PrayerRegistrationScreen} 
+        options={{ title: 'Register Prayer' }} 
+      />
+    </Stack.Navigator>
   );
 };
 
-// Root stack navigator
+// Main tab navigator
 const AppNavigator = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Main"
-          component={MainTabNavigator}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen name="Settings" component={SettingsScreen} />
-      </Stack.Navigator>
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName;
+
+            if (route.name === 'Dashboard') {
+              iconName = focused ? 'home' : 'home-outline';
+            } else if (route.name === 'Missed') {
+              iconName = focused ? 'time' : 'time-outline';
+            } else if (route.name === 'Settings') {
+              iconName = focused ? 'settings' : 'settings-outline';
+            }
+
+            return <Ionicons name={iconName} size={size} color={color} />;
+          },
+        })}
+      >
+        <Tab.Screen name="Dashboard" component={DashboardStack} />
+        <Tab.Screen name="Missed" component={MissedPrayersScreen} />
+        <Tab.Screen name="Settings" component={SettingsScreen} />
+      </Tab.Navigator>
     </NavigationContainer>
   );
 };
 
-// Root component with providers
-const App = () => {
-  return (
-    <StoreProvider store={store}>
-      <PaperProvider theme={theme}>
-        <SafeAreaProvider>
-          <StatusBar barStyle="dark-content" backgroundColor={theme.colors.background} />
-          <AppNavigator />
-        </SafeAreaProvider>
-      </PaperProvider>
-    </StoreProvider>
-  );
-};
-
-export default App;
+export default AppNavigator;
